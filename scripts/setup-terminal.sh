@@ -28,10 +28,26 @@ install_powerlevel() {
    git clone https://github.com/romkatv/powerlevel10k.git 
 }
 
+install_neovim() {
+   brew install newovim
+}
+
+
+install_rust() {
+    echo "Installing rustup locally"
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+}
+
+setup_rust() {
+    
+
+}
+
 main() {
    setup_environment
    install_iterm2
    install_powerlevel
+   install_rust
 }
 
 main
