@@ -1,0 +1,9 @@
+#!/bin/bash
+
+CYAN_COLOR='\033[0;36m'
+GREEN_COLOR='\033[0;32m'
+RED_COLOR='\033[0;31m'
+YELLOW_COLOR='\033[0;33m'
+
+END_COLOR='\033[0m'
+
