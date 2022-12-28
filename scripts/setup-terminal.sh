@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 setup_environment() {
    # Set permissions for *.sh
    find Scripts -name '*.sh' -exec chmod +x {} +
@@ -32,15 +34,19 @@ install_neovim() {
    brew install newovim
 }
 
-
 install_rust() {
     echo "Installing rustup locally"
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 }
 
 setup_rust() {
-    
-
+   local cargo_path="export PATH=\"\$HOME/.cargo/bin:\$PATH\""
+   local profile_file_location="${HOME}/.zprofile"
+   if [[ $(grep "${cargo_path}" "${profile_file_location}" | wc -l) -eq 0 ]]; then
+         echo "Setting cargo  path..."
+	 printf "\n# Set PATH for cargo" >> "${profile_file_location}"
+         printf "\n${cargo_path}" >> "${profile_file_location}"
+   fi
 }
 
 main() {
@@ -48,6 +54,7 @@ main() {
    install_iterm2
    install_powerlevel
    install_rust
+   setup_rust
 }
 
 main
