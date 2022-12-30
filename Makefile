@@ -11,4 +11,7 @@ setup-terminal: ## Install project required dependencies
 
 setup-tools:
 	@./scripts/setup-tools.sh
+	@$(MAKE) add-hooks
 
+add-hooks:
+	@./scripts/git/add-hooks.sh
