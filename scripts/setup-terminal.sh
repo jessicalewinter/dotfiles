@@ -19,8 +19,8 @@ install_iterm2() {
 
    open "${app_file}"
 
-   rm "${temp_file}"
-   rm "${app_file}"	
+   rm -r "${temp_file}"
+   rm -r "${app_file}"	
 }
 
 install_powerlevel() {
@@ -49,12 +49,18 @@ setup_rust() {
    fi
 }
 
+install_tuist() {
+    curl -Ls https://install.tuist.io | bash
+    tuist
+}
+
 main() {
    setup_environment
    install_iterm2
    install_powerlevel
    install_rust
    setup_rust
+   install_tuist
 }
 
 main
