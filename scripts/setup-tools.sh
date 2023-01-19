@@ -13,7 +13,6 @@ install_xcode_cli() {
    command -v xcode-select >/dev/null 2>&1 || xcode-select --install
 }
 
-
 function install_brew() {
    installBrew='/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
    command -v brew >/dev/null 2>&1 || eval $installBrew

@@ -3,24 +3,16 @@
 set -euo pipefail
 
 setup_environment() {
-   # Set permissions for *.sh
-   find Scripts -name '*.sh' -exec chmod +x {} +
-
    # Jump to root repository
    cd "$(git rev-parse --show-toplevel)"
+   
+   # Set permissions for *.sh
+   find scripts -name '*.sh' -exec chmod +x {} +
 }
 
-install_iterm2() {
-   local temp_file=iTerm2-3_4_18.zip
-   local app_file=iTerm.app
-   curl -O https://iterm2.com/downloads/stable/iTerm2-3_4_18.zip
-   
-   tar -xvf "${temp_file}"
-
-   open "${app_file}"
-
-   rm -r "${temp_file}"
-   rm -r "${app_file}"	
+import_dependent_source_files() {
+   source "scripts/utils/colors.sh"
+   source "scripts/utils/common.sh"
 }
 
 install_powerlevel() {
@@ -30,8 +22,34 @@ install_powerlevel() {
    git clone https://github.com/romkatv/powerlevel10k.git 
 }
 
-install_neovim() {
-   brew install newovim
+install_oh_my_zsh() {
+   local oh_my_zsh_path="${HOME}/.oh-my-zsh"
+   if ! command_exists "~/.oh-my-zsh";then
+      echo "Installing Oh My Zsh..."
+      sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+   else
+      echo "Oh My Zsh is already installed"
+   fi
+}
+
+install_iterm2_brew_cask() {
+
+}
+
+
+check_iterm2_installed() {
+
+}
+
+install_brew_dependencies() {
+   echo "Install iTerm2"
+   brew cask install iterm2
+
+   echo "Install neovim"
+   brew install neovim
+
+   echo "Install shellcheck"
+   brew install shellcheck
 }
 
 install_rust() {
@@ -54,13 +72,25 @@ install_tuist() {
     tuist
 }
 
-main() {
-   setup_environment
-   install_iterm2
-   install_powerlevel
+setup_rust_local() {
    install_rust
    setup_rust
    install_tuist
+}
+
+envinroment_local() {
+   setup_environment
+   import_dependent_source_files    
+}
+
+setup_terminal_local() {
+   install_iterm2
+   install_powerlevel
+}
+
+main() {
+   envinroment_local
+   install_oh_my_zsh
 }
 
 main
