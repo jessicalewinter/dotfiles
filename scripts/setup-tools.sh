@@ -1,13 +1,18 @@
 #!/bin/bash
 set -euo pipefail
 
-# Give executable permission for all shell scripts
-find Scripts -name '*.sh' -exec chmod +x {} +
-
 # Jump to repository root
 cd "$(git rev-parse --show-toplevel)"
 
+# Give executable permission for all shell scripts
+find scripts -name '*.sh' -exec chmod +x {} +
+
 source "scripts/utils/colors.sh"
+
+install_xcode_cli() {
+   command -v xcode-select >/dev/null 2>&1 || xcode-select --install
+}
+
 
 function install_brew() {
    installBrew='/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
@@ -102,6 +107,7 @@ function install_brew_deps() {
 }
 
 function main() {
+  install_xcode_cli
   install_brew
   check_which_terminal
   check_if_profile_exists 
@@ -111,4 +117,6 @@ function main() {
 }
 
 main
+
+
 
